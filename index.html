@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter - Real-time Exchange Rates</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Header -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>Currency Converter</span>
+                </div>
+                <div class="nav-right">
+                    <button class="theme-toggle" id="themeToggle" title="Toggle Dark/Light Mode">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="container">
+        <!-- Converter Card -->
+        <div class="converter-wrapper">
+            <div class="converter-card">
+                <h1 class="title">Currency Exchange</h1>
+                <p class="subtitle">Get real-time exchange rates</p>
+
+                <!-- Quick Buttons -->
+                <div class="quick-actions">
+                    <button class="quick-btn" data-currency="USD">USD</button>
+                    <button class="quick-btn" data-currency="EUR">EUR</button>
+                    <button class="quick-btn" data-currency="GBP">GBP</button>
+                    <button class="quick-btn" data-currency="INR">INR</button>
+                    <button class="quick-btn" data-currency="JPY">JPY</button>
+                </div>
+
+                <!-- Main Conversion Section -->
+                <div class="conversion-section">
+                    <!-- From Currency -->
+                    <div class="currency-box">
+                        <label for="fromAmount">From</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="fromAmount" 
+                                placeholder="Enter amount" 
+                                value="1" 
+                                min="0"
+                            >
+                            <div class="currency-select-wrapper">
+                                <select id="fromCurrency" class="currency-select">
+                                    <!-- Options populated by JavaScript -->
+                                </select>
+                                <span class="currency-flag" id="fromFlag">🇺🇸</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Swap Button -->
+                    <button class="swap-btn" id="swapBtn" title="Swap currencies">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+
+                    <!-- To Currency -->
+                    <div class="currency-box">
+                        <label for="toAmount">To</label>
+                        <div class="input-wrapper">
+                            <input 
+                                type="number" 
+                                id="toAmount" 
+                                placeholder="Converted amount" 
+                                readonly
+                            >
+                            <div class="currency-select-wrapper">
+                                <select id="toCurrency" class="currency-select">
+                                    <!-- Options populated by JavaScript -->
+                                </select>
+                                <span class="currency-flag" id="toFlag">🇪🇺</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Rate Information -->
+                <div class="rate-info" id="rateInfo" style="display: none;">
+                    <div class="rate-item">
+                        <span class="rate-label">Exchange Rate:</span>
+                        <span class="rate-value" id="exchangeRate">-</span>
+                    </div>
+                    <div class="rate-item">
+                        <span class="rate-label">Last Updated:</span>
+                        <span class="rate-value" id="lastUpdated">-</span>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-primary" id="convertBtn">
+                        <i class="fas fa-arrow-right"></i> Convert
+                    </button>
+                    <button class="btn btn-secondary" id="copyBtn" title="Copy result">
+                        <i class="fas fa-copy"></i> Copy
+                    </button>
+                    <button class="btn btn-secondary" id="resetBtn" title="Reset">
+                        <i class="fas fa-redo"></i> Reset
+                    </button>
+                </div>
+
+                <!-- Error Message -->
+                <div class="error-message" id="errorMessage" style="display: none;"></div>
+
+                <!-- Loading Spinner -->
+                <div class="spinner" id="spinner" style="display: none;">
+                    <div class="spinner-circle"></div>
+                    <p>Loading rates...</p>
+                </div>
+
+                <!-- Offline Indicator -->
+                <div class="offline-indicator" id="offlineIndicator" style="display: none;">
+                    <i class="fas fa-wifi"></i> Using cached rates (offline)
+                </div>
+            </div>
+
+            <!-- Favorite Currencies Section -->
+            <div class="favorites-card">
+                <h2 class="section-title">
+                    <i class="fas fa-star"></i> Favorite Currencies
+                </h2>
+                <div class="favorites-list" id="favoritesList">
+                    <p class="empty-message">No favorites yet. Add from favorites in history!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Top Rates Section -->
+        <div class="top-rates-section">
+            <h2 class="section-title">
+                <i class="fas fa-chart-line"></i> Exchange Rates (Base: USD)
+            </h2>
+            <div class="rates-grid" id="topRatesGrid">
+                <!-- Top rates populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- History Section -->
+        <div class="history-section">
+            <div class="history-header">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i> Conversion History
+                </h2>
+                <button class="btn btn-small" id="clearHistoryBtn" title="Clear history">
+                    <i class="fas fa-trash"></i> Clear
+                </button>
+            </div>
+            <div class="history-list" id="historyList">
+                <p class="empty-message">No conversion history yet.</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2024 Currency Converter. Built with <i class="fas fa-heart"></i> | Real-time rates powered by open.er-api.com</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
