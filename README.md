@@ -1,5 +1,6 @@
 # 💱 Modern Currency Converter Web Application
-
+**Intern ID:** CITS4237
+This is a frontend web development project built for my Codtech internship...
 A professional, production-ready currency converter built with vanilla JavaScript, featuring real-time exchange rates, dark mode, offline support, and much more.
 
 ## 🚀 Features
